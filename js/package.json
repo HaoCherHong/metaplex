@@ -31,7 +31,8 @@
     ]
   },
   "resolutions": {
-    "@types/react": "^17.0.16"
+    "@types/react": "^17.0.16",
+    "@solana/wallet-adapter-react": "^0.13.1"
   },
   "husky": {
     "hooks": {

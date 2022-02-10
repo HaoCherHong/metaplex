@@ -39,7 +39,7 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { Connection } from '@solana/web3.js';
 import { MintLayout } from '@solana/spl-token';
 import { useHistory, useParams } from 'react-router-dom';
-import { cleanName, getLast } from '../../utils/utils';
+import { getLast } from '../../utils/utils';
 import { AmountLabel } from '../../components/AmountLabel';
 import useWindowDimensions from '../../utils/layout';
 import {
@@ -242,7 +242,7 @@ const CategoryStep = (props: {
         <h2>Create a new item</h2>
         <p>
           First time creating on Metaplex?{' '}
-          <a href="https://docs.metaplex.com/create-store/sell" target="_blank" rel="noreferrer">
+          <a href="https://docs.metaplex.com/storefront/create" target="_blank" rel="noreferrer">
             Read our creators’ guide.
           </a>
         </p>
@@ -385,7 +385,7 @@ const UploadStep = (props: {
   return (
     <>
       <Row className="call-to-action">
-        <h2>Now, let's upload your creation</h2>
+        <h2>Now, let&apos;s upload your creation</h2>
         <p style={{ fontSize: '1.2rem' }}>
           Your file will be uploaded to the decentralized web via Arweave.
           Depending on file type, can take up to 1 minute. Arweave is a new type
@@ -623,22 +623,12 @@ const InfoStep = (props: {
   setAttributes: (attr: IMetadataExtension) => void;
   confirm: () => void;
 }) => {
-  const [creators, setCreators] = useState<Array<UserValue>>([]);
-  const [royalties, setRoyalties] = useState<Array<Royalty>>([]);
-  const { image, animation_url } = useArtworkFiles(
+  const { image } = useArtworkFiles(
     props.files,
     props.attributes,
   );
   const [form] = Form.useForm();
 
-  useEffect(() => {
-    setRoyalties(
-      creators.map(creator => ({
-        creatorKey: creator.key,
-        amount: Math.trunc(100 / creators.length),
-      })),
-    );
-  }, [creators]);
   return (
     <>
       <Row className="call-to-action">
@@ -737,18 +727,16 @@ const InfoStep = (props: {
             <Form.List name="attributes">
               {(fields, { add, remove }) => (
                 <>
-                  {fields.map(({ key, name, fieldKey }) => (
+                  {fields.map(({ key, name }) => (
                     <Space key={key} align="baseline">
                       <Form.Item
                         name={[name, 'trait_type']}
-                        fieldKey={[fieldKey, 'trait_type']}
                         hasFeedback
                       >
                         <Input placeholder="trait_type (Optional)" />
                       </Form.Item>
                       <Form.Item
                         name={[name, 'value']}
-                        fieldKey={[fieldKey, 'value']}
                         rules={[{ required: true, message: 'Missing value' }]}
                         hasFeedback
                       >
@@ -756,7 +744,6 @@ const InfoStep = (props: {
                       </Form.Item>
                       <Form.Item
                         name={[name, 'display_type']}
-                        fieldKey={[fieldKey, 'display_type']}
                         hasFeedback
                       >
                         <Input placeholder="display_type (Optional)" />
@@ -1082,7 +1069,7 @@ const LaunchStep = (props: {
   connection: Connection;
 }) => {
   const [cost, setCost] = useState(0);
-  const { image, animation_url } = useArtworkFiles(
+  const { image } = useArtworkFiles(
     props.files,
     props.attributes,
   );
@@ -1299,7 +1286,7 @@ const Congrats = (props: {
       <>
         <div className="waiting-title">Sorry, there was an error!</div>
         <p>{props.alert}</p>
-        <Button onClick={_ => history.push('/art/create')}>
+        <Button onClick={() => history.push('/art/create')}>
           Back to Create NFT
         </Button>
       </>
@@ -1312,14 +1299,14 @@ const Congrats = (props: {
       <div className="congrats-button-container">
         <Button
           className="metaplex-button"
-          onClick={_ => window.open(newTweetURL(), '_blank')}
+          onClick={() => window.open(newTweetURL(), '_blank')}
         >
           <span>Share it on Twitter</span>
           <span>&gt;</span>
         </Button>
         <Button
           className="metaplex-button"
-          onClick={_ =>
+          onClick={() =>
             history.push(`/art/${props.nft?.metadataAccount.toString()}`)
           }
         >
@@ -1328,7 +1315,7 @@ const Congrats = (props: {
         </Button>
         <Button
           className="metaplex-button"
-          onClick={_ => history.push('/auction/create')}
+          onClick={() => history.push('/auction/create')}
         >
           <span>Sell it via auction</span>
           <span>&gt;</span>
